@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clusters Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Clusters Analysis</h1>
+        <div class="clusters">
+            {% for cluster, data in clusters_data.items() %}
+                <div class="cluster">
+                    <h2>Cluster {{ cluster }}</h2>
+                    <p>Center: Annual Income = {{ data.center[0] }}, Spending Score = {{ data.center[1] }}</p>
+                    <img src="{{ url_for('download_plot', plot_type='cluster_' + cluster, plot_data=data.plot) }}" alt="Cluster {{ cluster }} Plot" class="plot">
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

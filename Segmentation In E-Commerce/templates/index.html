@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mall Customers Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Mall Customers Analysis</h1>
+        <div class="file-upload">
+            <form id="upload-form" action="/" method="post" enctype="multipart/form-data">
+                <label for="file" class="file-label">Choose a CSV File:</label>
+                <input type="file" name="file" id="file" accept=".csv">
+                <button type="submit" id="submit-btn" class="btn btn-primary">Analyze Data</button>
+                <div class="file-name" id="file-name"></div>
+                <div id="loader" class="loader"></div>
+            </form>
+        </div>
+
+        <div id="message-container" class="message-container">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="alert alert-danger" role="alert">
+                        <ul>
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        {% if summary_stats %}
+            <div class="summary-stats">
+                <h2>Data Summary</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Statistic</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for key, value in summary_stats.items() %}
+                            <tr>
+                                <td>{{ key }}</td>
+                                <td>{{ value }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+
+        {% if plot_data %}
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="plot-container">
+                        <h2>Scatter Plot: Spending Score vs Annual Income</h2>
+                        <img src="data:image/png;base64,{{ plot_data.scatter_plot }}" alt="Scatter Plot" class="plot">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="plot-container">
+                        <h2>Distribution Plot: Age</h2>
+                        <img src="data:image/png;base64,{{ plot_data.age_plot }}" alt="Age Distribution Plot" class="plot">
+                    </div>
+                    <div class="plot-container">
+                        <h2>Gender Analysis</h2>
+                        <img src="data:image/png;base64,{{ plot_data.gender_plot }}" alt="Gender Analysis" class="plot">
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
