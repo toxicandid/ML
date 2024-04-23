@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Prediction Result</h1>
+    <p>The predicted species is: {{ prediction_text }}</p>
+    {% if image_url %}
+    <img src="{{ image_url }}" alt="Flower Image">
+    {% endif %}
+</body>
+</html>
